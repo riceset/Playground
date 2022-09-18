@@ -44,5 +44,6 @@ int	main(void)
 	my_mlx_pixel_put(&img, 5, 5, 0x0000FF00);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx);
+	
 	return (0);
 }
