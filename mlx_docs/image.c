@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 16:02:49 by tkomeno           #+#    #+#             */
-/*   Updated: 2022/09/18 16:09:46 by tkomeno          ###   ########.fr       */
+/*   Updated: 2022/09/18 16:12:40 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int	main(void)
 	my_mlx_pixel_put(&img, 5, 5, 0x0000FF00);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx);
+
 	return (0);
 }
