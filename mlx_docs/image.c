@@ -6,27 +6,32 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 16:02:49 by tkomeno           #+#    #+#             */
-/*   Updated: 2022/09/18 16:12:40 by tkomeno          ###   ########.fr       */
+/*   Updated: 2022/09/19 01:38:47 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 
+#define WIDTH 1200
+#define HEIGHT 800
+
 typedef struct s_data
 {
 	void	*img;
-	char	*addr;
+	int		*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
 }			t_data;
 
+// linha / coluna
+// [y][x]
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-	char	*dst;
+	int line_length;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	line_length = data->line_length / 4;
+	data->addr[y * line_length + x] = color;
 }
 
 int	main(void)
@@ -35,14 +40,28 @@ int	main(void)
 	void	*mlx_win;
 	t_data	img;
 
-	;
+	//inicia a struct (constructor)
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+	
+	//Inicializa a janela tipo do chrome terminal etc
+	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Hello world!");
+
+	//Inicializa oq eu vou por dentro da janela
+	//espaco reservado na memoria pra preencher a janela
+	img.img = mlx_new_image(mlx, WIDTH, HEIGHT);
+
+	//raw data da imagem. enderecos e informacoes pra percorrer na imagem
+	img.addr = (int *)mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
-	my_mlx_pixel_put(&img, 5, 5, 0x0000FF00);
+
+	for (int x = 0; x < WIDTH; x++)
+		for (int y = 0; y < HEIGHT; y++)
+			my_mlx_pixel_put(&img, x, y, 0x00FF0000);
+
+	//Carrega tudo na memoria e coloca tudo de uma vez na tela com uma
+	//syscall
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+
 	mlx_loop(mlx);
 
 	return (0);
