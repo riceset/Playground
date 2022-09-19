@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hello.c                                            :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 15:03:34 by tkomeno           #+#    #+#             */
-/*   Updated: 2022/09/18 15:12:42 by tkomeno          ###   ########.fr       */
+/*   Created: 2022/04/13 15:22:37 by tkomeno           #+#    #+#             */
+/*   Updated: 2022/04/22 19:00:53 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
+#include "libft.h"
 
-int main(void)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	void *mlx;
-	void *mlx_win;
+	unsigned int	i;
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World!");
-	mlx_loop(mlx);
-
-	return (0);
+	if (s)
+	{
+		i = -1;
+		while (s[++i])
+			f(i, s + i);
+	}
 }
